@@ -69,9 +69,13 @@ int main(int argc, const char *argv[]) {
 			char *p = (char*)(argv[1] + 1);
 
 			while(*p) {
-				if(*p == 'a') op_a = 1;
-				else if(*p == 'l') op_l = 1;
-				else{
+				if(*p == 'a') { 
+                    op_a = 1; 
+                }
+				else if(*p == 'l') { 
+                    op_l = 1; 
+                }
+				else {
 					perror("Option not available");
 					exit(EXIT_FAILURE);
 				}
