@@ -7,8 +7,8 @@
  * @brief 
  * 
  * @param dir 
- * @param op_a 
- * @param op_l 
+ * @param op_a specifies that whether we want to list all files in the directory(which are hidden) or only the unhidden files
+ * @param op_l specifies that whether we want to list all files in the normal form without going to next line and by keeping the hidden files hidden or not.
  */
 void _ls(const char *dir,int op_a, int op_l) {
 	
@@ -27,8 +27,6 @@ void _ls(const char *dir,int op_a, int op_l) {
 	}
 
 	//While the next entry is not readable we will print directory files
-    //op_a specifies that whether we want to list all files in the directory(which are hidden) or only the unhidden files
-    //op_l specifies that whether we want to list all files in the normal form without going to next line and by keeping the hidden files hidden or not.
 	while ((d = readdir(dh)) != NULL) {
 
 		//If hidden files are found we continue
