@@ -7,10 +7,8 @@
  * @brief 
  * 
  * @param dir 
- * @param op_a specifies that whether we want to list all files in the directory(which are hidden) or only the unhidden files
- * @param op_l specifies that whether we want to list all files in the normal form without going to next line and by keeping the hidden files hidden or not.
  */
-void _ls(const char *dir,int op_a, int op_l) {
+void _ls(const char *dir) {
 	
 	struct dirent *d; // dirent object
 	DIR *dh = opendir(dir); //used for navigation
@@ -31,23 +29,16 @@ void _ls(const char *dir,int op_a, int op_l) {
 	while ((d = readdir(dh)) != NULL) {
 
 		//If hidden files are found we continue
-		if (!op_a && d->d_name[0] == '.') {
+		if (d->d_name[0] == '.') {
 			continue;
         }
 
-		printf("%s  ", d->d_name); //prints the file name or the directory name followed by a \n sign.
+		//printf("%s  ", d->d_name); //prints the file name or the directory name followed by a \n sign.
 
-		if(op_l) { 
-            printf("\n"); 
-        }
 		count++;
 	}
 
-	if(!op_l) {
-	    printf("\n");
-    }
-
-	printf("%d", count);
+	printf("\n%d", count);
 }
 
 /**
@@ -60,10 +51,8 @@ void _ls(const char *dir,int op_a, int op_l) {
 int main(int argc, const char *argv[]) {
 
 
-	int op_a = 0;
-	int op_l = 0;
 
-	_ls(".",op_a, op_l);
+	_ls(".");
 
 	return 0;
 }
