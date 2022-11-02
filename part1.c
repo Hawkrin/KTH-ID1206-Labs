@@ -1,7 +1,11 @@
 #include <stdio.h> //Used for basic input/output stream
 #include <dirent.h> //Used for handling directory files
 #include <errno.h> //Used for EXIT codes and error handling
-#include <stdlib.h>
+#include <stdlib.h> // standard library
+#include <sys/types.h>
+#include <unistd.h>
+
+#define _XOPEN_SOURCE 600
 
 /**
  * @brief 
@@ -33,12 +37,12 @@ void _ls(const char *dir) {
 			continue;
         }
 
-		//printf("%s  ", d->d_name); //prints the file name or the directory name followed by a \n sign.
+		printf("%s\n", d->d_name); //prints the file name or the directory name followed by a \n sign.
 
-		count++;
+		// count++;
 	}
 
-	printf("\n%d", count);
+	// printf("%d", count);
 }
 
 /**
@@ -50,7 +54,7 @@ void _ls(const char *dir) {
  */
 int main(int argc, const char *argv[]) {
 
-
+	fork();
 
 	_ls(".");
 
