@@ -14,6 +14,7 @@ void _ls(const char *dir,int op_a, int op_l) {
 	
 	struct dirent *d; // dirent object
 	DIR *dh = opendir(dir); //used for navigation
+	int count = 0;
 
     //if the file in not present or readable
 	if (!dh) {
@@ -39,50 +40,30 @@ void _ls(const char *dir,int op_a, int op_l) {
 		if(op_l) { 
             printf("\n"); 
         }
+		count++;
 	}
 
 	if(!op_l) {
 	    printf("\n");
     }
+
+	printf("%d", count);
 }
 
 /**
  * @brief The function will take arguments and code accordingly to the options provided.
- * if (argc == 1) then the default ls command will be used.
- * else if (argc == 2) we will follow another approach where we would take decision according to -a option or -l option.
  * 
  * @param argc 
  * @param argv 
  * @return int 
  */
 int main(int argc, const char *argv[]) {
-	
-    if (argc == 1) {
-		_ls(".",0,0);
-	}
-	else if (argc == 2) {
-		if (argv[1][0] == '-') {
 
-			//Checking if option is passed
-			//Options supporting: a, l
-			int op_a = 0, op_l = 0;
-			char *p = (char*)(argv[1] + 1);
 
-			while(*p) {
-				if(*p == 'a') { 
-                    op_a = 1; 
-                }
-				else if(*p == 'l') { 
-                    op_l = 1; 
-                }
-				else {
-					perror("Option not available");
-					exit(EXIT_FAILURE);
-				}
-				p++;
-			}
-			_ls(".",op_a,op_l);
-		}
-	}
+	int op_a = 0;
+	int op_l = 0;
+
+	_ls(".",op_a, op_l);
+
 	return 0;
 }
