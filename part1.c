@@ -3,26 +3,32 @@
 #include <errno.h> //Used for EXIT codes and error handling
 #include <stdlib.h>
 
-void _ls(const char *dir,int op_a, int op_l)
-{
-	//Here we will list the directory
-	struct dirent *d;
-	DIR *dh = opendir(dir);
+/**
+ * @brief 
+ * 
+ * @param dir 
+ * @param op_a 
+ * @param op_l 
+ */
+void _ls(const char *dir,int op_a, int op_l) {
+	
+	struct dirent *d; // dirent object
+	DIR *dh = opendir(dir); //used for navigation
 
-	if (!dh){
+    //if the file in not present or readable
+	if (!dh) {
 		if (errno = ENOENT) {
-			//If the directory is not found
 			perror("Directory doesn't exist");
 		}
 		else {
-			//If the directory is not readable then throw error and exit
 			perror("Unable to read directory");
 		}
-
 		exit(EXIT_FAILURE);
 	}
 
 	//While the next entry is not readable we will print directory files
+    //op_a specifies that whether we want to list all files in the directory(which are hidden) or only the unhidden files
+    //op_l specifies that whether we want to list all files in the normal form without going to next line and by keeping the hidden files hidden or not.
 	while ((d = readdir(dh)) != NULL) {
 
 		//If hidden files are found we continue
@@ -30,7 +36,7 @@ void _ls(const char *dir,int op_a, int op_l)
 			continue;
         }
 
-		printf("%s  ", d->d_name);
+		printf("%s  ", d->d_name); //prints the file name or the directory name followed by a \n sign.
 
 		if(op_l) { 
             printf("\n"); 
@@ -42,7 +48,15 @@ void _ls(const char *dir,int op_a, int op_l)
     }
 }
 
-
+/**
+ * @brief The function will take arguments and code accordingly to the options provided.
+ * if (argc == 1) then the default ls command will be used.
+ * else if (argc == 2) we will follow another approach where we would take decision according to -a option or -l option.
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int 
+ */
 int main(int argc, const char *argv[]) {
 	
     if (argc == 1) {
@@ -55,7 +69,7 @@ int main(int argc, const char *argv[]) {
 			//Options supporting: a, l
 			int op_a = 0, op_l = 0;
 			char *p = (char*)(argv[1] + 1);
-            
+
 			while(*p) {
 				if(*p == 'a') op_a = 1;
 				else if(*p == 'l') op_l = 1;
