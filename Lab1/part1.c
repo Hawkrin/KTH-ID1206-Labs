@@ -7,11 +7,6 @@
 #include <sys/wait.h>
 #include <string.h>
 
-#define _XOPEN_SOURCE 600
-#define BUFFERSIZE 200
-
-// fd[0] read from the pipe, fd[1] write to the pipe
-//int pipe(int fd[2]);
 
 /**
  * @brief The function will take arguments and code accordingly to the options provided.
@@ -24,13 +19,8 @@ int main(int argc, const char *argv[]) {
 
 	int fd[2], status, done = 0;
 	pipe(fd);
-	char* listAll = "/bin/ls";
-	char* countLines = "wc";
-	pid_t p;
-	p = fork();
-	//char write_message[BUFFERSIZE];
-	//char read_message[BUFFERSIZE];
-	
+	pid_t p = fork();
+
 	switch (p) {
 		case -1: // fork error
 			printf("fork error");
