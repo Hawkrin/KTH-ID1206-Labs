@@ -22,47 +22,34 @@
  */
 int main(int argc, const char *argv[]) {
 
-	/*************************THIS PART READS THE FILES(ls)************************/
-	struct dirent *d; // dirent object
-	DIR *dh = opendir("."); //used for navigation
-
-    //if the file in not present or readable
-	if (!dh) {
-		if (errno = ENOENT) { perror("Directory doesn't exist"); }
-		else { perror("Unable to read directory"); }
-		exit(EXIT_FAILURE);
-	}
-
-	//While the next entry is not readable we will print directory files
-	while ((d = readdir(dh)) != NULL) {
-
-		//If hidden files are found we continue
-		if (d->d_name[0] == '.') { continue; }
-
-		//printf("%s\n", d->d_name); //prints the file name or the directory name followed by a \n sign.
-
-	}
-	/*************************THIS PART READS THE FILES(ls)************************/
-
-	char* read_message[BUFFERSIZE];
-	int fd[2];
+	int fd[2], status, done = 0;
 	int pipe(int fd[2]);
-	pid_t p = fork();
-
+	char* listAll = "/bin/ls";
+	char* countLines = "wc";
+	pid_t p;
+	p = fork();
+	//char write_message[BUFFERSIZE];
+	//char read_message[BUFFERSIZE];
+	
 	switch (p) {
 		case -1: // fork error
-			printf("%d", "fork error");
+			printf("fork error");
 			break;
 		case 0: // Child
-			close(fd[1]); // Close unused write end
-			read(fd[0], read_message, BUFFERSIZE);
-			printf("read %s", read_message);
-		break;
+			dup2(fd[1], STDOUT_FILENO);
+			close(fd[0]);
+			close(fd[1]);
+			execlp("ls", "ls", "/", (char *) NULL);
+			break;
 		default: // Parent
-			close(fd[0]); // Close unused read end
-			write(fd[1], d->d_name, strlen(d->d_name) + 1);
-		break;
+			dup2(fd[0], STDIN_FILENO);
+			close(fd[0]);
+			close(fd[1]);
+			execlp("wc", "wc", "-l", (char *) NULL);
+			break;
 		}
+	close(fd[0]);
+	close(fd[1]);
 
-	return 0;
+	waitpid(-1, &status, 0);
 }
