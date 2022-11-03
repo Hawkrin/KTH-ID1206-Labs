@@ -1,3 +1,4 @@
 {
-    "vscode-corda.isCordaProject": false
+    "vscode-corda.isCordaProject": false,
+    "C_Cpp.errorSquiggles": "Disabled"
 }

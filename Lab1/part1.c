@@ -8,6 +8,10 @@
 #include <string.h>
 
 #define _XOPEN_SOURCE 600
+#define BUFFERSIZE 200
+
+// fd[0] read from the pipe, fd[1] write to the pipe
+//int pipe(int fd[2]);
 
 /**
  * @brief The function will take arguments and code accordingly to the options provided.
@@ -17,12 +21,6 @@
  * @return int 
  */
 int main(int argc, const char *argv[]) {
-
-	int pipe(int pipefd[2]);
-	int fd1[2]; // Used to send input string from parent
-    int fd2[2]; // Used to send back the number of lines.
-	pid_t p;
-	char input_str[100];
 
 	/*************************THIS PART READS THE FILES(ls)************************/
 	struct dirent *d; // dirent object
@@ -41,26 +39,30 @@ int main(int argc, const char *argv[]) {
 		//If hidden files are found we continue
 		if (d->d_name[0] == '.') { continue; }
 
-		printf("%s\n", d->d_name); //prints the file name or the directory name followed by a \n sign.
+		//printf("%s\n", d->d_name); //prints the file name or the directory name followed by a \n sign.
+
 	}
 	/*************************THIS PART READS THE FILES(ls)************************/
 
-	
-	if (pipe(fd1) == -1) {
-        fprintf(stderr, "Pipe Failed");
-        return 1;
-    }
-    if (pipe(fd2) == -1) {
-        fprintf(stderr, "Pipe Failed");
-        return 1;
-    }
+	char* read_message[BUFFERSIZE];
+	int fd[2];
+	int pipe(int fd[2]);
+	pid_t p = fork();
 
-	p = fork();
-
-	if (p < 0) {
-        fprintf(stderr, "fork Failed");
-        return 1;
-    }
+	switch (p) {
+		case -1: // fork error
+			printf("%d", "fork error");
+			break;
+		case 0: // Child
+			close(fd[1]); // Close unused write end
+			read(fd[0], read_message, BUFFERSIZE);
+			printf("read %s", read_message);
+		break;
+		default: // Parent
+			close(fd[0]); // Close unused read end
+			write(fd[1], d->d_name, strlen(d->d_name) + 1);
+		break;
+		}
 
 	return 0;
 }
