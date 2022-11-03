@@ -23,7 +23,7 @@
 int main(int argc, const char *argv[]) {
 
 	int fd[2], status, done = 0;
-	int pipe(int fd[2]);
+	pipe(fd);
 	char* listAll = "/bin/ls";
 	char* countLines = "wc";
 	pid_t p;
