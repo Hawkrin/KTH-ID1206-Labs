@@ -25,8 +25,7 @@ Hint2: You can use dup2 to redirect the output of the exec to the input descript
 ****************************************************************************************************/
 
 /**
- * @brief The function will take arguments and code accordingly to the options provided.
- * 
+ * @brief The function perform the command: ls / | wc -l
  * @param argc 
  * @param argv 
  * @return int 
