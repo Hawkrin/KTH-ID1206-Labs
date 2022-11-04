@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "stdio.h": "c"
-    }
+        "stdio.h": "c",
+        "part2header.h": "c",
+        "stdlib.h": "c",
+        "unistd.h": "c",
+        "mqueue.h": "c"
+    },
+    "vscode-corda.isCordaProject": false
 }
