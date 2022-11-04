@@ -46,7 +46,6 @@ void main(void){
     }
 
 }
-
 /*
     En fråga?
 Det känns som att child måste ligga före parent i exekveringen då child skriver och parent läser. 
