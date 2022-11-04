@@ -28,7 +28,6 @@ Hint2: You can use dup2 to redirect the output of the exec to the input descript
  * @brief The function perform the command: ls / | wc -l
  * @param argc 
  * @param argv 
- * @return int 
  */
 int main(int argc, const char *argv[]) {
 

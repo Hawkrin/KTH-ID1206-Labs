@@ -11,7 +11,6 @@
 #define MAX_SIZE 100
 #define MAX_NUM_MSG 10
 
-
 /**************************************************************************************
 In this part, you will work with message queues. You need to implement two
 processes, such that the first process reads the content of a text file and passes it
@@ -22,10 +21,11 @@ the second process should count and print out the number of words in the file.
 void main() {
 
     char *my_mq = "/mymq";
-    char *write_msg = "hello";
+    char *write_msg = "THIS IS A MESSAGE WOHO";
     char buffer[MAX_SIZE + 1];
     mqd_t mqd;
     int status = 0;
+
 
     // Form the queue attributes
     struct mq_attr attributes;
@@ -36,40 +36,18 @@ void main() {
 
     /**SENDING**/
     mqd = mq_open(my_mq, O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR, &attributes);
+    if (mqd == -1) {
+        printf("Failed to create queue.\n");
+    }
     mq_send(mqd, write_msg, strlen(write_msg), 1);
     mq_close(mqd);
 
-    // /**RECIEVING**/
+    /**RECIEVING**/
     mqd = mq_open(my_mq, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR, &attributes);
-    mq_receive(mqd, buffer, MAX_NUM_MSG, NULL);
+    mq_receive(mqd, buffer, MAX_SIZE, NULL);
     printf("Message: %s\n", buffer);
     mq_close(mqd);
     mq_unlink(my_mq);
-
-    // if (mqd == -1) {
-    //     printf("Failed to create queue.\n");
-    //     status = 1;
-    // }
-
-    // if (status == 0){ 
-    //     mq_send(mqd, write_msg, strlen(write_msg), 1); 
-    //     status = mq_receive(mqd, buffer, MAX_NUM_MSG, NULL);  
-    // }
-
-    // if ((status == 0) && (mq_close(mqd) == -1))
-    // {
-    //     printf("Error closing message queue.\n");
-    //     status = 1;
-    // }
-
-    // if ((status == 0) && (mq_unlink("test_queue") == -1))
-    // {
-    //     printf("Error deleting message queue.\n");
-    //     status = 1;
-    // }
-
-    printf("Message: %s\n", buffer);
-
 
 } 
 
