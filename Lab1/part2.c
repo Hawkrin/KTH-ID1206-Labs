@@ -82,7 +82,7 @@ int receiver_process (struct mq_attr attributes, mqd_t mqd, char *my_mq) {
     mq_receive(mqd, buffer, MAX_SIZE, NULL);
     mq_close(mqd);
 
-    mq_unlink(my_mq);     /* unlink queue */
+    mq_unlink(my_mq);     /* delete queue */
 
     for(i = 0; buffer[i]; i++) {
         if(buffer[i] == 32)
@@ -98,12 +98,10 @@ int receiver_process (struct mq_attr attributes, mqd_t mqd, char *my_mq) {
 
 }
 
-
-
 int main() {
 
-    char *my_mq = "/mymq";
-    mqd_t mqd;
+    char *my_mq = "/mymq"; // queue name
+    mqd_t mqd;  //message queue descriptor
 
     // Form the queue attributes
     struct mq_attr attributes;
