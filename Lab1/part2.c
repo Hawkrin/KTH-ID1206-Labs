@@ -18,6 +18,14 @@ to the second process through a message queue. Upon receipt of the file content,
 the second process should count and print out the number of words in the file.
 ***************************************************************************************/
 
+/**
+ * @brief a function that scans the input of a file and the process the content and sends it via a queue.
+ * 
+ * @param attributes the attributes for the queue
+ * @param mqd message queue descriptor
+ * @param my_mq the name of the queue
+ * @return int 
+ */
 int sender_process(struct mq_attr attributes, mqd_t mqd, char *my_mq ) {
 
     FILE *fp = fopen("text.txt", "r");
@@ -55,6 +63,14 @@ int sender_process(struct mq_attr attributes, mqd_t mqd, char *my_mq ) {
 
 }
 
+/**
+ * @brief starts a process and receives the sent queue and then counts the word inside of it.
+ * 
+ * @param attributes the attributes for the queue
+ * @param mqd message queue descriptor
+ * @param my_mq the name of the queue
+ * @return int 
+ */
 int receiver_process (struct mq_attr attributes, mqd_t mqd, char *my_mq) {
 
     char buffer[MAX_SIZE + 1];
@@ -89,7 +105,7 @@ int main() {
     char *my_mq = "/mymq";
     mqd_t mqd;
 
-         // Form the queue attributes
+    // Form the queue attributes
     struct mq_attr attributes;
     attributes.mq_maxmsg = MAX_NUM_MSG;
     attributes.mq_msgsize = MAX_SIZE;
