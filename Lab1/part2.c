@@ -43,7 +43,7 @@ int sender_process(struct mq_attr attributes, mqd_t mqd, char *my_mq ) {
         return 1;
     }
 
-    while ((c = fgetc (fp)) != EOF) { 
+    while ((c = fgetc (fp)) != EOF) {  
         read_buffer[size++] = c;      
     }
 
@@ -110,9 +110,9 @@ void main() {
     attributes.mq_flags = 0;
     attributes.mq_curmsgs = 0;
     
-    sender(attributes, mqd, my_mq);
+    sender_process(attributes, mqd, my_mq);
 
-    receiver(attributes, mqd, my_mq);
+    receiver_process(attributes, mqd, my_mq);
 } 
 
 
