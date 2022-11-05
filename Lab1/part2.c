@@ -92,7 +92,7 @@ int receiver_process (struct mq_attr attributes, mqd_t mqd, char *my_mq) {
     if( i > 0) { words++;}
     
     printf("The text: %s\n", buffer);
-    printf("no of words in string = %d\n",words);
+    printf("Number of words in the file = %d\n",words);
 
     return 0;
 
