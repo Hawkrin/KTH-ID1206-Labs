@@ -43,8 +43,8 @@ int sender_process(struct mq_attr attributes, mqd_t mqd, char *my_mq ) {
         return 1;
     }
 
-    while ((c = fgetc (fp)) != EOF) {  /* for each char in file */
-        read_buffer[size++] = c;       /* assign char to array */
+    while ((c = fgetc (fp)) != EOF) { 
+        read_buffer[size++] = c;      
     }
 
     if (fp != stdin) fclose (fp);    /* close file if not stdin */
@@ -98,12 +98,12 @@ int receiver_process (struct mq_attr attributes, mqd_t mqd, char *my_mq) {
 
 }
 
-int main() {
+void main() {
 
-    char *my_mq = "/mymq"; // queue name
-    mqd_t mqd;  //message queue descriptor
+    char *my_mq = "/mymq"; /* queue name */
+    mqd_t mqd;  /* message queue descriptor */
 
-    // Form the queue attributes
+    /* Form the queue attributes */
     struct mq_attr attributes;
     attributes.mq_maxmsg = MAX_NUM_MSG;
     attributes.mq_msgsize = MAX_SIZE;
@@ -113,8 +113,6 @@ int main() {
     sender(attributes, mqd, my_mq);
 
     receiver(attributes, mqd, my_mq);
-
-    return 0;
 } 
 
 
