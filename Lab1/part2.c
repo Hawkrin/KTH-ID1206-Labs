@@ -18,7 +18,7 @@ to the second process through a message queue. Upon receipt of the file content,
 the second process should count and print out the number of words in the file.
 ***************************************************************************************/
 
-int sender(struct mq_attr attributes, mqd_t mqd, char *my_mq ) {
+int sender_process(struct mq_attr attributes, mqd_t mqd, char *my_mq ) {
 
     FILE *fp = fopen("text.txt", "r");
     char *read_buffer = malloc (sizeof *read_buffer * MAX_SIZE);
@@ -55,7 +55,7 @@ int sender(struct mq_attr attributes, mqd_t mqd, char *my_mq ) {
 
 }
 
-int receiver (struct mq_attr attributes, mqd_t mqd, char *my_mq) {
+int receiver_process (struct mq_attr attributes, mqd_t mqd, char *my_mq) {
 
     char buffer[MAX_SIZE + 1];
     char *write_msg = "";
