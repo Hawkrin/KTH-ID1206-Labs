@@ -71,7 +71,6 @@ int sender_process(struct mq_attr attributes, mqd_t mqd, char *my_mq ) {
 int receiver_process (struct mq_attr attributes, mqd_t mqd, char *my_mq) {
 
     char buffer[MAX_SIZE + 1];
-    char *write_msg = "";
     int i, words = 0;
 
     /**RECIEVING**/
