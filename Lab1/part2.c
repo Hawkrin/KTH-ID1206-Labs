@@ -4,7 +4,7 @@
 #include <stdlib.h> /* Standard library */
 #include <string.h> /* Size_t, strlen */
 #include <mqueue.h> /* Queue functions */
-#include <fcntl.h> /* Defines requests/arguments used my mq_open */
+#include <fcntl.h> /* Defines requests/arguments used by mq_open */
 
 #define MAX_SIZE 100
 #define MAX_NUM_MSG 10
