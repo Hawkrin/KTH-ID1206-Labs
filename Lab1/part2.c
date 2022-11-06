@@ -17,7 +17,7 @@ the second process should count and print out the number of words in the file.
 ***************************************************************************************/
 
 /**
- * @brief a function that scans the input of a file and the process the content and sends it via a queue.
+ * @brief a function that scans the input of a file and then process the content and sends it via a queue.
  * 
  * @param attributes the attributes for the queue
  * @param mqd message queue descriptor
