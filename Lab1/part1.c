@@ -1,12 +1,9 @@
-#include <stdio.h> //Used for basic input/output stream
-#include <dirent.h> //Used for handling directory files
-#include <errno.h> //Used for EXIT codes and error handling
-#include <stdlib.h> // standard library
-#include <sys/types.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <string.h>
-
+#include <stdio.h> /* Basic input/output stream */
+#include <dirent.h> /* Handling directory files */
+#include <errno.h> /* EXIT codes and error handling */
+#include <stdlib.h> /* Standard library */
+#include <unistd.h> /* STDOUT_FILENO, STDIN_FILENO */
+#include <sys/wait.h> /* waitpid */
 
 /***********************************************************************************************
 The purpose of this part is to work with fork, exec, and wait to create new
@@ -29,7 +26,7 @@ Hint2: You can use dup2 to redirect the output of the exec to the input descript
  * @param argc 
  * @param argv 
  */
-int main(int argc, const char *argv[]) {
+void main() {
 
 	int fd[2], status, done = 0;
 	pipe(fd);

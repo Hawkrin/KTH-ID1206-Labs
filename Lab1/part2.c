@@ -1,12 +1,10 @@
-#include <stdio.h> //Used for basic input/output stream
-#include <dirent.h> //Used for handling directory files
-#include <errno.h> //Used for EXIT codes and error handling
-#include <stdlib.h> // standard library
-#include <unistd.h>
-#include <string.h>
-#include <mqueue.h>
-#include <fcntl.h>
-#include <sys/stat.h>
+#include <stdio.h> /* Basic input/output stream */
+#include <dirent.h> /* Handling directory files */
+#include <errno.h> /* EXIT codes and error handling */
+#include <stdlib.h> /* Standard library */
+#include <string.h> /* Size_t, strlen */
+#include <mqueue.h> /* Queue functions */
+#include <fcntl.h> /* Defines requests/arguments used my mq_open */
 
 #define MAX_SIZE 100
 #define MAX_NUM_MSG 10
@@ -60,7 +58,6 @@ int sender_process(struct mq_attr attributes, mqd_t mqd, char *my_mq ) {
     free (read_buffer);   /* free allocated memory */
 
     return 0;
-
 }
 
 /**
@@ -95,7 +92,6 @@ int receiver_process (struct mq_attr attributes, mqd_t mqd, char *my_mq) {
     printf("Number of words in the file = %d\n",words);
 
     return 0;
-
 }
 
 void main() {
@@ -111,7 +107,6 @@ void main() {
     attributes.mq_curmsgs = 0;
     
     sender_process(attributes, mqd, my_mq);
-
     receiver_process(attributes, mqd, my_mq);
 } 
 

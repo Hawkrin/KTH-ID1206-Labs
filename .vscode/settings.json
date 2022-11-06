@@ -1,4 +1,10 @@
 {
     "vscode-corda.isCordaProject": false,
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "fcntl.h": "c",
+        "stat.h": "c",
+        "unistd.h": "c",
+        "types.h": "c"
+    }
 }
