@@ -26,15 +26,16 @@ void main(void){
         break;
         case 0: //Child
             //for(int i = 0; i < 100000; i++){}
-            printf("child\n");
+            //printf("child\n");
             char *msg = "Hello World!";
             close(fd[0]); //Stäng läs porten (är det rätt att kalla den för port?) då child ska skriva. 
             write(fd[1], msg, strlen(msg)); //Argument: peka på den änden av pipen som är skriv, vad som ska skrivas, storleken på meddelandet. 
             close(fd[1]); //Stäng skriv porten. När både läs o skriv är stängda stängs den "virituella filen" (pipen) och child kan terminera. 
+            printf("child\n");
         break;
         default: //Parent
-            for(int i = 0; i < 100000; i++){}
-            printf("Parent\n");
+            //for(int i = 0; i < 100000; i++){}
+            //printf("Parent\n");
             close(fd[1]);
             //wait(NULL); 
             while(read(fd[0], &buf, 1) > 0) //Läs 1 byte (en char) o spara i buf. read returnerar antal bytes lästa, i vårt fall returnerar den 1. Om den läser, skriv...
@@ -42,6 +43,7 @@ void main(void){
 
             write(STDOUT_FILENO, "\n", 1); //Lägg till en endline.
             close(fd[0]);
+            printf("Parent\n");
         break;
     }
 
