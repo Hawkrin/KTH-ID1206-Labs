@@ -1,8 +1,7 @@
 
-Lab1/part1.exe
-Lab1/part1.exe.stackdump
-Lab1/part2.exe
-Lab1/part2Receiver.exe
-Lab1/part2Sender.exe
+
+*.exe
 .DS_Store
+
+
 
