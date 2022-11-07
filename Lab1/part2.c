@@ -70,7 +70,6 @@ int sender_process(struct mq_attr attributes, mqd_t mqd, char *my_mq ) {
  */
 int receiver_process (struct mq_attr attributes, mqd_t mqd, char *my_mq) {
 
-    //char buffer[MAX_SIZE];
     char *buffer = malloc (sizeof *buffer * MAX_SIZE);
     int i, words = 0;
 
