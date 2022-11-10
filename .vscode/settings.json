@@ -5,6 +5,7 @@
         "fcntl.h": "c",
         "stat.h": "c",
         "unistd.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "stdio.h": "c"
     }
 }
