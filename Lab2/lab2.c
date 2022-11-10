@@ -44,7 +44,8 @@ void main() {
 
     printf("TID: %d worked on the buffer %d times\n", thread[0], counter1);
     printf("TID: %d worked on the buffer %d times\n", thread[1], counter1);
-    printf("TID: %d worked on the buffer %d times", thread[2], counter1);
+    printf("TID: %d worked on the buffer %d times\n", thread[2], counter1);
+    printf("Total buffer accesses: %d", (counter1+counter1+counter3));
 
     pthread_join(thread[0], NULL);
     pthread_join(thread[1], NULL);
