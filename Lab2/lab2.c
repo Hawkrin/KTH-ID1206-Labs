@@ -22,7 +22,6 @@ void main() {
     pid_t pid = getpid();
     int i, j = 0;
 
-
     while(i < 3) {
         pthread_create(&thread[i], NULL, anFunction, (void *)&thread[i]);
         i++;
