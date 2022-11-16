@@ -21,7 +21,7 @@
  ********************************************************************************/
 
 pthread_mutex_t lock;
-pthread_t thread[3];
+pthread_t thread[NO_OF_THREADS];
 int buffer = 0;
 
 
