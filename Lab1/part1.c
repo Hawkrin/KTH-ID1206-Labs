@@ -6,25 +6,26 @@
 #include <sys/wait.h> /* waitpid */
 
 /***********************************************************************************************
-The purpose of this part is to work with fork, exec, and wait to create new
-processes and use pipe to communicate between parent/child processes. You
-should implement a code to illustrate the following command: ls / | wc -l.
-This command prints out the number of files in the root path: ls / shows the
-files/directories in the root path, and its output will be piped through | to wc
--l, which counts the number of lines.
-
-Hint1: Use fork to make a child process. Then, the child process executes ls
-/, passing the result (i.e., the list files/directories) through a pipe to the parent
-process. The parent executes wc -l to print out the number of lines for the list
-passed by the child.
-
-Hint2: You can use dup2 to redirect the output of the exec to the input descriptor made by pipe.
+ * @author
+ * Malcolm Liljedahl, Robin Fransson, Maximilian Petersson
+ * @brief 
+ * The purpose of this part is to work with fork, exec, and wait to create new
+ * processes and use pipe to communicate between parent/child processes. You
+ * should implement a code to illustrate the following command: ls / | wc -l.
+ * This command prints out the number of files in the root path: ls / shows the
+ * files/directories in the root path, and its output will be piped through | to wc
+ * -l, which counts the number of lines.
+ *
+ * Hint1: Use fork to make a child process. Then, the child process executes ls
+ * /, passing the result (i.e., the list files/directories) through a pipe to the parent
+ * process. The parent executes wc -l to print out the number of lines for the list
+ * passed by the child.
+ *
+ * Hint2: You can use dup2 to redirect the output of the exec to the input descriptor made by pipe.
 ****************************************************************************************************/
 
 /**
  * @brief The function perform the command: ls / | wc -l
- * @param argc 
- * @param argv 
  */
 void main() {
 
