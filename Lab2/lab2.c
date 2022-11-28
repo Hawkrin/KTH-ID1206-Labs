@@ -3,9 +3,9 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #define NO_OF_THREADS 3
-
 
 /*********************************************************************************
  * @author
@@ -28,7 +28,9 @@ int buffer = 0;
 void *anFunction(void *vargp) {
     
     pid_t pid = getpid();
-    int instance_counter = 0;
+
+    int *instance_counter = (int *)malloc(sizeof(int));
+    *instance_counter = 0;
 
     while(true) {
         pthread_mutex_lock(&lock);
@@ -40,19 +42,17 @@ void *anFunction(void *vargp) {
         buffer++;
         pthread_mutex_unlock(&lock); 
         
-        instance_counter++;
+        (*instance_counter)++;
     }
 
-    printf("\nTID: %d, worked on buffer, %d times", pthread_self(), instance_counter);
-
-    pthread_exit(0);
+    return instance_counter;
 }
 
 void main() {
     
     pthread_mutex_init(&lock, NULL);
     
-    int i, j = 0;
+    int i, j = 0, *res;
 
     while(i < NO_OF_THREADS) {
         pthread_create(&thread[i], NULL, anFunction, NULL);
@@ -60,9 +60,11 @@ void main() {
     }
 
     while(j < NO_OF_THREADS) {
-        pthread_join(thread[j], NULL);
+        pthread_join(thread[j], (void **)&res);
+        printf("\nTID: %d, worked on buffer, %d times", thread[j], *res);
         j++;
     }
 
     printf("\nTotal buffer accesses: %d", (buffer));
+
 }
