@@ -1,6 +1,7 @@
 
 *.zip
 *.exe
+*.stackdump
 .DS_Store
 
 
