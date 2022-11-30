@@ -36,7 +36,7 @@ int main() {
     unsigned int b1 = 0b10000000000000000000000000000000;
 
     print_binary(b1);
-    print_binary(mask_MSB16(b1));
+    print_binary(mask_LSB16(b1));
 
 }
 
