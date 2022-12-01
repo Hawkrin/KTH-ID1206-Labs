@@ -14,7 +14,8 @@
 
 int main(int argc, char *argv[]) {
     
-    int logical_address, physical_Address, page_number, offset, frame_number, page_fault;
+    int logical_address, physical_Address, page_number, offset, frame_number;
+    int page_fault = 0;
     char *ch = malloc(10*sizeof(char));
     int page_table[NO_OF_PAGES] = {[0 ... (NO_OF_PAGES - 1)] = -1 }; // -1 if free, 0 if allocated
     int frame_table[NO_OF_PAGES] = {[0 ... (NO_OF_PAGES - 1)] = -1 }; // -1 if free, 0 if allocated
@@ -22,6 +23,8 @@ int main(int argc, char *argv[]) {
     char byte_value;
     int empty_frame= - 1; 
     char physical_memory[NO_OF_FRAMES*FRAME_SIZE];
+    int counter = 1;
+    float percentage;
 
     address_file = fopen("data/addresses.txt", "r"); 
 	backing_store = fopen("data/BACKING_STORE.bin", "r");
@@ -68,10 +71,13 @@ int main(int argc, char *argv[]) {
 
         }
         byte_value = physical_memory[physical_Address];
-
+        counter++;
         memset(ch,0,sizeof(ch));
-        printf("\nVirtual address: %d,  Physical address: %d, Value: %d", logical_address, physical_Address, byte_value);			
+        printf("\nVirtual address: %d,  Physical address: %d, Value: %d", logical_address, physical_Address, byte_value);
 
     }
+    percentage = (float)page_fault / counter * 100.0;
+    printf("\n Page fault rate: %.2f%c ", percentage, 37);	
+
     return 0;
 }
