@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
 
     }
     percentage = (float)page_fault / counter * 100.0;
-    printf("\n Page fault rate: %.2f%c ", percentage, 37);	
+    printf("\nPage fault rate: %.2f%c ", percentage, 37);	
 
     return 0;
 }
