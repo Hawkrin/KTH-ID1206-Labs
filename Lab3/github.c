@@ -13,13 +13,12 @@ int main(int argc, char *argv[])
 {
 
 //	VARIABLE DECLARATIONS
-	int addressFile,backingStore; 				//	file descriptors
-	char *file= argv[1];	
+	int addressFile,backingStore; 				//	file descriptors	
 
 	char ch,ct, input[1000], output;
 	int logicalAddress, physicalAddress;	
 	int i=0, j=0;
-
+	int counter = 1;
 
 //	LOGICAL MEMORY
 	int p;										//	page-number: used as an index into a page table 	
@@ -44,8 +43,8 @@ int main(int argc, char *argv[])
 
 //	READING LOGICAL ADDRESS FROM FILE
 	
-	addressFile = open(file,O_RDONLY); 
-	backingStore = open("BACKING_STORE.txt",O_RDONLY); 
+	addressFile = open("data/addresses.txt",O_RDONLY); 
+	backingStore = open("data/BACKING_STORE.bin",O_RDONLY); 
 
 	if(addressFile != -1)
 	{
@@ -63,7 +62,7 @@ int main(int argc, char *argv[])
 				p = (logicalAddress & 0x0000ff00UL) >>  8;
 				d = (logicalAddress & 0x000000ffUL);
 
-				printf("\nlogicalAddress: %d, p: %d, d: %d", logicalAddress,p,d);
+				//printf("\nlogicalAddress: %d, p: %d, d: %d", logicalAddress,p,d);
 
 //				ADDRESS TRANSLATION THROUGH PAGE TABLE
 
@@ -72,7 +71,7 @@ int main(int argc, char *argv[])
 
 					f = pagetable[p];
 					physicalAddress = (f * SIZE) + d;
-					printf("\nphysicalAddress: %d, f: %d", physicalAddress,f);
+					//printf("\nphysicalAddress: %d, f: %d", physicalAddress,f);
 
 				}
 //				pagetable-miss, page-fault	
@@ -114,24 +113,27 @@ int main(int argc, char *argv[])
 					frametable[freeFrame] = 0;
 
 					physicalAddress = (freeFrame * SIZE) + d;
-					printf("\nphysicalAddress: %d, freeFrame: %d", physicalAddress, freeFrame);
+					//printf("\nphysicalAddress: %d, frame number: %d", physicalAddress, f);
 				}
 
 // 				READ CHAR STORED AT THE PHYSICAL ADDRESS
 				output = frames[physicalAddress];
-				printf("\nByte value stored at physicalAddress %d: %c\n",physicalAddress, output);
+				//printf("\nByte value stored at physicalAddress %d: %c\n",physicalAddress, output);
 				
 				memset(input,0,sizeof(input));
 				i=0;
 
+        		printf("\nVirtual address: %d,  Physical address: %d, Value: %d", logicalAddress, physicalAddress, output);
 			}
 		}
-		printf("\nTotal Page Faults: %d",pagefault);		
+		//printf("\nTotal Page Faults: %d",pagefault);		
 	}
 	else
-		printf("Addresses File Does not exist!");
+		//printf("Addresses File Does not exist!");
 
 	close(backingStore);
 	close(addressFile);	
+
+	
 	return 0;	
 }
