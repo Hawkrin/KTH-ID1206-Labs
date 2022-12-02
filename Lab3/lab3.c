@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
         page_faults = 0,
         TLB_hits = 0,
         empty_frame_index = -1,
-        counter = 0, 
+        no_of_translations = 0, 
         frame_number,
         page_table[NO_OF_PAGES] = {[0 ... (NO_OF_PAGES - 1)] = -1 },  // -1 if free, 0 if allocated
         frame_table[NO_OF_PAGES] = {[0 ... (NO_OF_PAGES - 1)] = -1 }, // -1 if free, 0 if allocated   
@@ -72,16 +72,16 @@ int main(int argc, char *argv[]) {
         if(page_table[page_number]!= -1) {
             frame_number = page_table[page_number];
             physical_address = (frame_number * FRAME_SIZE) + offset;
-            TLB[counter % NO_OF_TLB_ROW][0] = page_number;
-            TLB[counter % NO_OF_TLB_ROW][1] = physical_address;
+            TLB[no_of_translations % NO_OF_TLB_ROW][0] = page_number;
+            TLB[no_of_translations % NO_OF_TLB_ROW][1] = physical_address;
         }
         //pagetable-miss, page-fault	
         else {
             page_faults++;
-            empty_frame_index = 0;
+            empty_frame_index = -1;
             while (frame_table[empty_frame_index++] != -1){}
     
-            //read page from backing-store into the available frame in the physical memory 					
+            //read page from backing store					
             if((size_t)backing_store != -1) {						
                 
                 int set_off = 0;
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
                 fseek(backing_store, start, SEEK_SET);
                 while((set_off < NO_OF_PAGES)) {
                     fgets(&byte_value, 2, backing_store);
-                    physical_memory[empty_frame_index * set_off] = byte_value; 
+                    physical_memory[empty_frame_index * NO_OF_FRAMES + set_off] = byte_value; 
                     set_off++;														
                 }
             }
@@ -102,24 +102,24 @@ int main(int argc, char *argv[]) {
             }
 
             page_table[page_number] = empty_frame_index;	
-            frame_table[empty_frame_index] = 0;
             physical_address = (empty_frame_index * FRAME_SIZE) + offset;
-            TLB[counter % NO_OF_TLB_ROW][0] = page_number;
-            TLB[counter % NO_OF_TLB_ROW][1] = physical_address;
+            frame_table[empty_frame_index] = 0;
+            TLB[no_of_translations % NO_OF_TLB_ROW][0] = page_number;
+            TLB[no_of_translations % NO_OF_TLB_ROW][1] = physical_address;
         }
         byte_value = physical_memory[physical_address];
-        counter++;
+        no_of_translations++;
         memset(ch,0,sizeof(ch));
         printf("\nVirtual address: %d,  Physical address: %d, Value: %d", logical_address, physical_address, byte_value);
 
     }
-    page_faults_rate = (float)page_faults / counter * 100.0;
+    page_faults_rate = (float)page_faults / no_of_translations * 100.0;
     printf("\n\nPage fault rate: %.2f%c ", page_faults_rate, 37);
 
-    TLB_hit_rate = (float) TLB_hits / counter * 100.0;
+    TLB_hit_rate = (float) TLB_hits / no_of_translations * 100.0;
     printf("\nTLB hit rate: %.2f%c\n", TLB_hit_rate, 37);
 
-    printf("\nCounter: %d\n", counter);
+    printf("\nNumber of translations: %d\n", no_of_translations);
 
     return 0;
 }
