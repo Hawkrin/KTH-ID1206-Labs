@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
         *ch = malloc(10*sizeof(char)), 
         byte_value; 
     float 
-        page_faults_rate,
+        page_fault_rate,
         TLB_hit_rate;
     bool
         TLB_hit;
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
         page_faults = 0,
         TLB_hits = 0,
         empty_frame_index = -1,
-        counter = 0, 
+        counter = 1, 
         frame_number,
         page_table[NO_OF_PAGES] = {[0 ... (NO_OF_PAGES - 1)] = -1 },  // -1 if free, 0 if allocated
         frame_table[NO_OF_PAGES] = {[0 ... (NO_OF_PAGES - 1)] = -1 }, // -1 if free, 0 if allocated   
@@ -51,13 +51,12 @@ int main(int argc, char *argv[]) {
         fprintf (stderr, "error: file open failed");
     }
     
-    
     while(fgets(ch, 10, address_file)) {
         logical_address = atoi(ch);
         page_number = (logical_address & 0x0000ff00) >>  8;
         offset = logical_address & 0x000000ff;
 
-         //TLB-hit, obtain frame number
+        //TLB-hit, obatain frame number
         TLB_hit = false;
         for (int i = 0; i < NO_OF_TLB_ROW; i++) {
             if (TLB[i][0] == page_number) {
@@ -67,59 +66,59 @@ int main(int argc, char *argv[]) {
                 break;
             }
         }
+       
+        
 
-        //pagetable-hit, obtain frame number	
-        if(page_table[page_number]!= -1) {
+        //pagetable-hit, obtain frame number
+        if(page_table[page_number]!= -1 && !TLB_hit) {
             frame_number = page_table[page_number];
             physical_address = (frame_number * FRAME_SIZE) + offset;
             TLB[counter % NO_OF_TLB_ROW][0] = page_number;
             TLB[counter % NO_OF_TLB_ROW][1] = physical_address;
         }
-        //pagetable-miss, page-fault	
+
+        //pagetable-miss, page-fault
         else {
             page_faults++;
-            empty_frame_index = 0;
-            while (frame_table[empty_frame_index++] != -1){}
+            empty_frame_index = -1;
+            while (frame_table[++empty_frame_index] != -1){}
     
-            //read page from backing-store into the available frame in the physical memory 					
-            if((size_t)backing_store != -1) {						
+            //read page from backing-store into the available frame in the physical memory			
+            if((size_t)backing_store != -1) {
                 
                 int set_off = 0;
                 int start = NO_OF_PAGES * page_number;
-
+    
                 fseek(backing_store, start, SEEK_SET);
                 while((set_off < NO_OF_PAGES)) {
                     fgets(&byte_value, 2, backing_store);
                     physical_memory[empty_frame_index * set_off] = byte_value; 
-                    set_off++;														
+                    set_off++;
                 }
             }
             else {
                 fprintf(stderr, "error: backing store does not exist!");
                 fclose(backing_store);
                 fclose(address_file);	
-                return 0;	
+                return 0;
             }
 
             page_table[page_number] = empty_frame_index;	
-            frame_table[empty_frame_index] = 0;
             physical_address = (empty_frame_index * FRAME_SIZE) + offset;
-            TLB[counter % NO_OF_TLB_ROW][0] = page_number;
-            TLB[counter % NO_OF_TLB_ROW][1] = physical_address;
+            frame_table[empty_frame_index] = 0;
+
+
         }
         byte_value = physical_memory[physical_address];
         counter++;
-        memset(ch,0,sizeof(ch));
+        //memset(ch,0,sizeof(ch));
         printf("\nVirtual address: %d,  Physical address: %d, Value: %d", logical_address, physical_address, byte_value);
 
     }
-    page_faults_rate = (float)page_faults / counter * 100.0;
-    printf("\n\nPage fault rate: %.2f%c ", page_faults_rate, 37);
+    page_fault_rate = (float)page_faults / counter * 100.0;
+    printf("\nPage fault rate: %.2f%c\n", page_fault_rate, 37);	
 
-    TLB_hit_rate = (float) TLB_hits / counter * 100.0;
-    printf("\nTLB hit rate: %.2f%c\n", TLB_hit_rate, 37);
-
-    printf("\nCounter: %d\n", counter);
+    printf("TLB HITS: %d\n", TLB_hits);
 
     return 0;
 }

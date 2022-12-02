@@ -2,6 +2,7 @@
     "vscode-corda.isCordaProject": false,
     "files.associations": {
         "stdio.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "unistd.h": "c"
     }
 }
