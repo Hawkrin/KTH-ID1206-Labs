@@ -114,7 +114,7 @@ int main() {
         }
         byte_value = physical_memory[physical_address];
         no_of_translations++;
-        memset(ch,0,sizeof(char));
+        memset(ch, 0, sizeof(char));
         printf("\nVirtual address: %d,  Physical address: %d, Value: %d", logical_address, physical_address, byte_value);
 
     }
