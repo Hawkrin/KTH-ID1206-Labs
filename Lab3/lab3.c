@@ -34,13 +34,11 @@ int main(int argc, char *argv[]) {
         physical_address, 
         page_number, 
         offset,
-        start,
         page_faults = 0,
         TLB_hits = 0,
         empty_frame_index = -1,
         no_of_translations = 0, 
         frame_number,
-        set_off = 0,
         page_table[NO_OF_PAGES] = {[0 ... (NO_OF_PAGES - 1)] = -1 },  // -1 if free, 0 if allocated
         frame_table[NO_OF_PAGES] = {[0 ... (NO_OF_PAGES - 1)] = -1 }, // -1 if free, 0 if allocated   
         TLB[NO_OF_TLB_ROW][NO_OF_TLB_COLUMNS];
@@ -86,7 +84,9 @@ int main(int argc, char *argv[]) {
             //read page from backing store					
             if((size_t)backing_store != -1) {						
                 
-                start = NO_OF_PAGES * page_number;
+                int start = NO_OF_PAGES * page_number;
+
+                int set_off = 0;
 
                 fseek(backing_store, start, SEEK_SET);
                 while((set_off < NO_OF_PAGES)) {
