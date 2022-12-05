@@ -33,6 +33,8 @@ int main(int argc, char *argv[]) {
         logical_address, 
         physical_address, 
         page_number, 
+        start,
+        set_off,
         offset,
         page_faults = 0,
         TLB_hits = 0,
@@ -84,9 +86,8 @@ int main(int argc, char *argv[]) {
             //read page from backing store					
             if((size_t)backing_store != -1) {						
                 
-                int start = NO_OF_PAGES * page_number;
-
-                int set_off = 0;
+                start = NO_OF_PAGES * page_number;
+                set_off = 0;
 
                 fseek(backing_store, start, SEEK_SET);
                 while((set_off < NO_OF_PAGES)) {
