@@ -15,7 +15,7 @@
 #define NO_OF_TLB_ROW 16        // Number of rows in the TLB
 #define NO_OF_TLB_COLUMNS 2     // Number of columns in the TLB
 
-int main(int argc, char *argv[]) {
+int main() {
     
     FILE 
         *address_file, 
