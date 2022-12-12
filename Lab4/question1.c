@@ -66,19 +66,17 @@ int sstf(int array[]) {
     total = CYLINDER_REQUESTS - 2, 
     new_head = start;
 	
-	while(total >= 0) {
+	while( total >= 0 ) {
 
 		lower_index_difference = abs(array[new_head] - array[lower_index]);
 		higher_index_difference = abs(array[higher_index] - array[new_head]);
 
 		if(lower_index_difference < higher_index_difference) {
-
 			head_movement += lower_index_difference;
 			new_head = lower_index;
 			lower_index--;	
 		} 
     else {
-
 			head_movement += higher_index_difference;
 			new_head = higher_index;
 			higher_index++;
