@@ -92,13 +92,16 @@ int scan(int array[]) {
   int 
     lower_index = start - 1, 
     higher_index = start + 1,
-    lower_index_difference = 0, 
-    higher_index_difference = 0,
+    lower_index_difference, 
+    higher_index_difference,
     head_movement = 0, 
     new_head = start;
 
     array = insertion_sort();
 	  
+    lower_index_difference = abs(array[new_head] - array[lower_index]);
+    higher_index_difference = abs(array[higher_index] - array[new_head]);
+
     while(lower_index >= 0 || higher_index < CYLINDER_REQUESTS) {  
       if(lower_index_difference < higher_index_difference || higher_index == CYLINDER_REQUESTS) {
         while(lower_index >= 0) {
@@ -107,7 +110,7 @@ int scan(int array[]) {
           lower_index--;
         }
       } 
-      
+      new_head = start;
       while(higher_index < CYLINDER_REQUESTS) {
         head_movement += abs(array[higher_index] - array[new_head]);
         new_head = higher_index;
