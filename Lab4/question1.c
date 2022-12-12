@@ -67,7 +67,6 @@ int sstf(int array[]) {
     array = insertion_sort();
 	
 	while( total >= 0 ) {
-
 		lower_index_difference = abs(array[new_head] - array[lower_index]);
 		higher_index_difference = abs(array[higher_index] - array[new_head]);
 
@@ -87,17 +86,47 @@ int sstf(int array[]) {
 	return head_movement;
 }
 
-void main(int argc, char *argv[]) {
+int scan(int array[]) {
+  int 
+    lower_index = start - 1, 
+    higher_index = start + 1,
+    lower_index_difference = 0, 
+    higher_index_difference = 0,
+    head_movement = 0, 
+    new_head = start;
+
+    array = insertion_sort();
+	  
+    while(lower_index >= 0 || higher_index < CYLINDER_REQUESTS) {  
+      if(lower_index_difference < higher_index_difference || higher_index == CYLINDER_REQUESTS) {
+        while(lower_index >= 0) {
+          head_movement += abs(array[new_head] - array[lower_index]);
+          new_head = lower_index;
+          lower_index--;
+        }
+      } 
+      
+      while(higher_index < CYLINDER_REQUESTS) {
+        head_movement += abs(array[higher_index] - array[new_head]);
+        new_head = higher_index;
+        higher_index++;
+      }
+    }
+	return head_movement;
+}
+
+int main(int argc, char *argv[]) {
 
   start = atoi(argv[1]);
 
   //Inserts random numbers into the array
   for(int i = 0; i < CYLINDER_REQUESTS; i++) {
-    array[i] = rand() % 5000;
+    array[i] = rand() % CYLINDERS;
 	}
 
   printf("FCFS head movements: %d\n", fcfs(array));
   printf("SSTF head movements: %d\n", sstf(array));
-    
+  printf("SCAN head movements: %d\n", scan(array));
+  return 0;
 }
 
