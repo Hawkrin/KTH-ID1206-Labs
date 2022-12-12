@@ -37,99 +37,116 @@ int* insertion_sort() {
 
 /**FCFS**/
 int fcfs(int array[]) {
-
-    int starting_index = array[start];
-    long head_movement = 0; 
-
-    for(int i = start; i < CYLINDER_REQUESTS; i++) {
-        head_movement = head_movement + abs(array[i] - starting_index);
-    }
-
-    for(int i = 0; i < start; i++) {
-        head_movement = head_movement + abs(starting_index - array[i]);
-    }
-
-    return head_movement;
+  int index = 0, head_movement = abs(array[index++] - start);
+  for (; index < CYLINDER_REQUESTS - 1; index++) {
+    head_movement += abs(array[index] - array[index + 1]);
+  }
+  return head_movement;
 }
 
 /**SSTF**/
 int sstf(int array[]) {
 
-	int 
-    lower_index = start - 1, 
-    higher_index = start + 1,
-    lower_index_difference = 0, 
-    higher_index_difference = 0,
+	int
+    lower_index,
+    current_index = -1, 
+    higher_index,
+    lower_index_difference, 
+    higher_index_difference,
     head_movement = 0, 
-    total = CYLINDER_REQUESTS - 2, 
-    new_head = start;
+    head = start;
 
-    array = insertion_sort();
+  array = insertion_sort();
+
+  while (array[++current_index] < start) {}
+
+  lower_index = current_index - 1;
+  higher_index = current_index + 1;
 	
-	while( total >= 0 ) {
-		lower_index_difference = abs(array[new_head] - array[lower_index]);
-		higher_index_difference = abs(array[higher_index] - array[new_head]);
-
-		if(lower_index_difference < higher_index_difference) {
-			head_movement += lower_index_difference;
-			new_head = lower_index;
-			lower_index--;	
-		} 
+	while (lower_index >= 0 || higher_index < CYLINDER_REQUESTS) {
+    lower_index_difference = abs(array[lower_index] - head);
+    higher_index_difference = abs(array[higher_index] - head);
+    if (lower_index_difference < higher_index_difference && lower_index != -1) {
+      head_movement += lower_index_difference;
+      current_index = lower_index;
+      head = array[lower_index--];
+    }
     else {
-			head_movement += higher_index_difference;
-			new_head = higher_index;
-			higher_index++;
-		}
-
-		total--;
-	}
+      head_movement += higher_index_difference;
+      current_index = higher_index;
+      head = array[higher_index++];
+    }
+  }
 	return head_movement;
 }
 
 int scan(int array[]) {
   int 
-    lower_index = start - 1, 
-    higher_index = start + 1,
-    lower_index_difference, 
-    higher_index_difference,
+    lower_index,
+    higher_index,
     head_movement = 0, 
-    new_head = start;
+    current_index = -1;
 
-    array = insertion_sort();
-	  
-    lower_index_difference = abs(array[new_head] - array[lower_index]);
-    higher_index_difference = abs(array[higher_index] - array[new_head]);
+  array = insertion_sort();
+  while (array[++current_index] < start) {}
 
-    while(lower_index >= 0 || higher_index < CYLINDER_REQUESTS) {  
-      if(lower_index_difference < higher_index_difference || higher_index == CYLINDER_REQUESTS) {
-        while(lower_index >= 0) {
-          head_movement += abs(array[new_head] - array[lower_index]);
-          new_head = lower_index;
-          lower_index--;
-        }
-      } 
-      new_head = start;
-      while(higher_index < CYLINDER_REQUESTS) {
-        head_movement += abs(array[higher_index] - array[new_head]);
-        new_head = higher_index;
-        higher_index++;
-      }
-    }
+  lower_index = current_index - 1;
+  higher_index = current_index + 1;
+
+  while (lower_index >= 0) {
+    head_movement += abs(array[current_index] - array[lower_index]);
+    current_index = lower_index--;
+  }
+  head_movement += abs(array[current_index]);
+
+  while (higher_index < CYLINDER_REQUESTS) {
+    head_movement += abs(array[higher_index] - array[current_index]);
+    current_index = higher_index++;
+  }
 	return head_movement;
 }
+
+
+int c_scan(int array[]) {
+  int 
+    start_index,
+    higher_index,
+    head_movement = 0, 
+    current_index = -1;
+
+  array = insertion_sort();
+  while (array[++current_index] < start) {}
+
+  start_index = current_index--;
+
+  while (current_index >= 0) {
+    head_movement += abs(array[current_index] - array[current_index + 1]);
+    current_index--;
+  }
+  head_movement += abs(CYLINDERS - 1 + array[current_index]);
+  current_index = CYLINDER_REQUESTS - 1;
+  while (current_index > start_index) {
+    head_movement += abs(array[current_index] - array[current_index + 1]);
+    current_index--;
+  }
+	return head_movement;
+}
+
+
 
 int main(int argc, char *argv[]) {
 
   start = atoi(argv[1]);
 
   //Inserts random numbers into the array
-  for(int i = 0; i < CYLINDER_REQUESTS; i++) {
+  for (int i = 0; i < CYLINDER_REQUESTS; i++) {
     array[i] = rand() % CYLINDERS;
 	}
 
   printf("FCFS head movements: %d\n", fcfs(array));
   printf("SSTF head movements: %d\n", sstf(array));
   printf("SCAN head movements: %d\n", scan(array));
+  printf("C-SCAN head movements: %d\n", c_scan(array));
   return 0;
 }
 
