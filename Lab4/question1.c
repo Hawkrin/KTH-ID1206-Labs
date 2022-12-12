@@ -55,8 +55,6 @@ int fcfs(int array[]) {
 /**SSTF**/
 int sstf(int array[]) {
 
-	array = insertion_sort();
-
 	int 
     lower_index = start - 1, 
     higher_index = start + 1,
@@ -65,6 +63,8 @@ int sstf(int array[]) {
     head_movement = 0, 
     total = CYLINDER_REQUESTS - 2, 
     new_head = start;
+
+    array = insertion_sort();
 	
 	while( total >= 0 ) {
 
@@ -83,11 +83,8 @@ int sstf(int array[]) {
 		}
 
 		total--;
-
 	}
-
 	return head_movement;
-
 }
 
 void main(int argc, char *argv[]) {
