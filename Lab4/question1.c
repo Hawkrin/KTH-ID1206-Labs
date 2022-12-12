@@ -15,42 +15,94 @@ amount of head movement required by each algorithm.
 #define CYLINDER_REQUESTS 1000
 
 int start = 0;
+int array[CYLINDER_REQUESTS];
+
+/**Function that sorts arrays**/
+int* insertion_sort() {
+
+	int temp = 0;
+
+	for (int i = 0; i < CYLINDER_REQUESTS; ++i) {
+    for (int j = i + 1; j < CYLINDER_REQUESTS; ++j) {
+        if (array[i] > array[j]) {
+            temp =  array[i];
+            array[i] = 	array[j];
+            array[j] = temp;
+        }
+      }
+    }
+
+    return array;
+}
 
 /**FCFS**/
 int fcfs(int array[]) {
-    int
-        starting_index = array[start];
+
+    int starting_index = array[start];
     long head_movement = 0; 
 
     for(int i = start; i < CYLINDER_REQUESTS; i++) {
         head_movement = head_movement + abs(array[i] - starting_index);
-        printf("%ld\t %d\n", head_movement, abs(starting_index - array[i]));
-        
     }
 
     for(int i = 0; i < start; i++) {
-        head_movement = head_movement +  abs(starting_index - array[i]);
-        printf("%ld\t %ld\n", head_movement, abs(starting_index - array[i]));
+        head_movement = head_movement + abs(starting_index - array[i]);
     }
 
     return head_movement;
 }
 
-void main(int argc, char *argv[]) {
+/**SSTF**/
+int sstf(int array[]) {
 
-    start = atoi(argv[1]);
+	array = insertion_sort();
 
-    int array[CYLINDER_REQUESTS];
+	int 
+    lower_index = start - 1, 
+    higher_index = start + 1,
+    lower_index_difference = 0, 
+    higher_index_difference = 0,
+    head_movement = 0, 
+    total = CYLINDER_REQUESTS - 2, 
+    new_head = start;
+	
+	while(total >= 0) {
 
-    for(int i = 0; i < CYLINDER_REQUESTS; i++) {
+		lower_index_difference = abs(array[new_head] - array[lower_index]);
+		higher_index_difference = abs(array[higher_index] - array[new_head]);
 
-		array[i] = rand() % 5000;
+		if(lower_index_difference < higher_index_difference) {
+
+			head_movement += lower_index_difference;
+			new_head = lower_index;
+			lower_index--;	
+		} 
+    else {
+
+			head_movement += higher_index_difference;
+			new_head = higher_index;
+			higher_index++;
+		}
+
+		total--;
+
 	}
 
-    fcfs(array);
+	return head_movement;
 
-    // printf("FCFS head movements: %d\n", fcfs(array));
+}
+
+void main(int argc, char *argv[]) {
+
+  start = atoi(argv[1]);
+
+  //Inserts random numbers into the array
+  for(int i = 0; i < CYLINDER_REQUESTS; i++) {
+    array[i] = rand() % 5000;
+	}
+
+  printf("FCFS head movements: %d\n", fcfs(array));
+  printf("SSTF head movements: %d\n", sstf(array));
     
-
 }
 
