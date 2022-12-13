@@ -157,7 +157,7 @@ int look(int array[]) {
 }
 
 int c_look(int array[]) {
-
+  return 0;
 }
 
 int main(int argc, char *argv[]) {
