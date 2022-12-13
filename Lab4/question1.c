@@ -132,7 +132,33 @@ int c_scan(int array[]) {
 	return head_movement;
 }
 
+int look(int array[]) {
+  int 
+    start_index,
+    higher_index,
+    head_movement = 0, 
+    current_index = -1;
 
+  array = insertion_sort();
+  while (array[++current_index] < start) {}
+
+  start_index = current_index--;
+
+  while (current_index >= 0) {
+    head_movement += abs(array[current_index] - array[current_index + 1]);
+    current_index--;
+  }
+  head_movement += abs(CYLINDERS - 1);
+  while (current_index > start_index) {
+    head_movement += abs(array[current_index] - array[current_index + 1]);
+    current_index--;
+  }
+	return head_movement;
+}
+
+int c_look(int array[]) {
+
+}
 
 int main(int argc, char *argv[]) {
 
@@ -147,6 +173,7 @@ int main(int argc, char *argv[]) {
   printf("SSTF head movements: %d\n", sstf(array));
   printf("SCAN head movements: %d\n", scan(array));
   printf("C-SCAN head movements: %d\n", c_scan(array));
+  printf("LOOK head movements: %d\n", look(array));
   return 0;
 }
 
