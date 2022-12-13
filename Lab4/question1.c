@@ -35,7 +35,7 @@ int* insertion_sort() {
     return array;
 }
 
-/**FCFS**/
+/**FIRST COME FIRST SERVED(FCFS)**/
 int fcfs(int array[]) {
 
     int starting_index = array[start];
@@ -52,7 +52,7 @@ int fcfs(int array[]) {
     return head_movement;
 }
 
-/**SSTF**/
+/**SHORTEST SEEK TIME FIRST(SSTF)**/
 int sstf(int array[]) {
 
 	int 
