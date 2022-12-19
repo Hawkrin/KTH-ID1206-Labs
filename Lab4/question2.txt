@@ -1,0 +1,24 @@
+Q: What are the inode values of file1.txt and file2.txt? Are they the same or different?
+A: Same inode.
+
+Q: Do the two files have the same - or different - contents?
+A: Same. 
+
+Q: Are the contents of file1.txt and file2.txt the same or different?
+A: Same.
+
+Q: Does file2.txt still exist as well?
+A: Yes.
+
+Q: What system call is used for removing file2.txt?
+A: rm.
+
+Q: Are the inodes the same, or is each unique?
+A: unique.
+
+Q: Next, edit the contents of file4.txt. Have the contents of file3.txt been altered as well?
+A: No.
+
+Q: After you have done so, explain what happens when you attempt to edit file4.txt.
+A: Nothing, it works.
+
